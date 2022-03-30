@@ -1,4 +1,5 @@
 import re
+from collections import defaultdict
 from json import loads
 
 
@@ -88,15 +89,22 @@ class Bus:
 standard_input = input()
 
 
+def display_stops(buses_dict):
+    print(f"Line names and number of stops:")
+    for (key, value) in buses_dict.items():
+        print(f'bus_id: {key}, stops: {value}')
+
+
 def main():
     data = loads(standard_input, parse_float=float)
-    buses = []
+    buses = defaultdict(int)
     for element in data:
         bus_id, stop_id, stop_name, next_stop, stop_type, a_time = element["bus_id"], element["stop_id"], element[
             "stop_name"], element["next_stop"], element["stop_type"], element["a_time"]
-        buses.append(Bus(bus_id, stop_id, stop_name, next_stop, stop_type, a_time))
+        # tmp_bus = Bus(bus_id, stop_id, stop_name, next_stop, stop_type, a_time)
+        buses[element["bus_id"]] += 1
 
-    print(buses[0])
+    display_stops(buses)
 
 
 if __name__ == '__main__':
